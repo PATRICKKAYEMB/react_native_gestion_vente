@@ -98,20 +98,20 @@ const HistoriqueScreen = () => {
                   <View style={Styles.row}>
                     <Text style={Styles.cell}>{item.client}</Text>
                     <Text style={Styles.cell}>{item.produit_nom}</Text>
-                    <Text style={Styles.cell}>{item.prix_produit} €</Text>
+                   
                     <Text style={Styles.cell}>{item.quantite}</Text>
                     <Text style={Styles.cell}>{item.date_vente}</Text>
-                    <Text style={Styles.cell}>{item.total} €</Text>
+                  
                   </View>
                 )}
                 ListHeaderComponent={() => (
                   <View style={[Styles.row, Styles.headerRow]}>
                     <Text style={[Styles.cell, Styles.headerCell]}>Client</Text>
                     <Text style={[Styles.cell, Styles.headerCell]}>Produit</Text>
-                    <Text style={[Styles.cell, Styles.headerCell]}>Prix</Text>
+                  
                     <Text style={[Styles.cell, Styles.headerCell]}>Quantité</Text>
                     <Text style={[Styles.cell, Styles.headerCell]}>Date de vente</Text>
-                    <Text style={[Styles.cell, Styles.headerCell]}>Total</Text>
+                   
                   </View>
                 )}  />
 
@@ -145,6 +145,8 @@ const Styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         paddingVertical: 8,
+        paddingHorizontal:3,
+       
         borderBottomWidth: 1,
         borderBottomColor: '#ccc',
       },
@@ -156,6 +158,7 @@ const Styles = StyleSheet.create({
         backgroundColor: '#eee',
         borderBottomWidth: 2,
         borderBottomColor: '#666',
+        paddingHorizontal:3,
       },
       headerCell: {
         fontWeight: 'bold',

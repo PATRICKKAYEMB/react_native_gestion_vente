@@ -109,14 +109,14 @@ const styles=StyleSheet.create({
         flexDirection:"column",
         justifyContent:"center",
         alignItems:"center",
-        backgroundColor:"orange",
+        backgroundColor:"white",
         position:"relative"
     },
     container2:{
         height:"55%",
         paddingTop:50,
         paddingLeft:30,
-        backgroundColor:"#E2EAF4",
+        backgroundColor:"#0D47A1",
         bottom:0,
         width:"100%",
         borderTopLeftRadius:40,
