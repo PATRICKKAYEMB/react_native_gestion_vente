@@ -33,8 +33,8 @@ const CategorieScreen = () => {
        <View>
              <ScrollView style={styles.categorieList}> 
              {
-              categorieData.map((item) => (
-                     <Categorie text={item.name} id={item.id} />
+              categorieData.map((item,ids) => (
+                     <Categorie text={item.name} id={item.id} key={ids} />
 
               ))
              }
@@ -58,11 +58,11 @@ const CategorieScreen = () => {
 
 const styles=StyleSheet.create({
   container:{
-    flex:1
+    height:"100%"
   },
       box:{
         width:"full",
-        height:"80%",
+        height:"78%",
       justifyContent:"space-between",
       alignItems:"stretch",
       flexDirection:"column"

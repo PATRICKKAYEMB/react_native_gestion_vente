@@ -13,6 +13,7 @@ import ListeProduitsScreen from '../Screens/StockScreens/ListeProduitsScreen';
 
 import HistoriqueScreen from '../Screens/HistoriqueScreens/HistoriqueScreen';
 import VendreScreen from '../Screens/StockScreens/VendreScreen';
+import NotificationScreen from '../Screens/NotificationScreen';
 
 
 
@@ -57,6 +58,12 @@ const Stack = createStackNavigator();
          <Stack.Screen 
          name='venteProduit'
          component={VendreScreen}
+         options={{ headerShown: false }}
+         />
+
+         <Stack.Screen 
+         name="notification"
+         component={NotificationScreen}
          options={{ headerShown: false }}
          />
 

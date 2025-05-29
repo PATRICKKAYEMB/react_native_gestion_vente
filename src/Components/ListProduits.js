@@ -29,6 +29,7 @@ const Styles= StyleSheet.create({
         width:"45%",
         marginBottom:13,
         borderRadius: 10,
+        backgroundColor:"green"
        
     },
     imageWrapper:{

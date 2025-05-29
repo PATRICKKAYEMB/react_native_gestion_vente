@@ -19,9 +19,10 @@ const ListeProduitsScreen = () => {
   const listeProduits = data || [];
 
   return (
-    <View>
+    <View style={styles.container}>
       <Navbar />
-      <ScrollView style={styles.container}>
+      <View style={styles.content}>
+      <ScrollView >
         <View style={styles.box}>
           {listeProduits.map((item) => (
             <ListProduits
@@ -33,6 +34,7 @@ const ListeProduitsScreen = () => {
           ))}
         </View>
       </ScrollView>
+      </View>
       <Footer />
     </View>
   );
@@ -40,10 +42,13 @@ const ListeProduitsScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 40,
-    width: '100%',
-    backgroundColor: '#F5F5F5',
-    height: '79%',
+    height: '100%'
+  },
+  content:{
+        height: "78%",
+        paddingTop: 40,
+        width: '100%',
+        backgroundColor: '#F5F5F5',
   },
   box: {
     flexWrap: 'wrap',

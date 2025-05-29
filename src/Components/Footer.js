@@ -1,6 +1,7 @@
 import { Text, View,StyleSheet, TouchableOpacity } from 'react-native'
 import React, { Component } from 'react'
 import { AntDesign } from '@expo/vector-icons'
+import Feather from '@expo/vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native'
 
 const  Footer = ()=>{
@@ -30,6 +31,21 @@ const  Footer = ()=>{
                 
             </TouchableOpacity>
 
+            <TouchableOpacity style={styles.box} onPress={()=> navigation.navigate("notification")}>
+                <View style={styles.boxBell}>
+                        <View style={styles.bell}>
+                        <Text style={styles.textBell}>4</Text>
+                        </View>
+                   
+                    
+                     <Feather name="bell" size={24} color="white" />
+
+                </View>
+                
+            <Text style={styles.TextBox}>Notification</Text>
+                
+            </TouchableOpacity>
+
            
         
       </View>
@@ -56,8 +72,28 @@ const styles = StyleSheet.create({
         flexDirection:"column",
         alignItems:"center",
         justifyContent:"center",
+        position:"relative"
         
         
+    },
+    
+    bell:{
+        right:0,
+        top:0,
+        width:15,
+        height:15,
+        alignItems:"center",
+        position:"absolute",
+        justifyContent:"center",
+        borderRadius:"50%", 
+        backgroundColor:"red",
+        zIndex:10
+       
+    },
+    textBell:{
+        color:"white",
+        fontSize:12,
+        textAlign:"center"
     },
 
     TextBox:{

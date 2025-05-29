@@ -106,11 +106,11 @@ export default function BarcodeScannerScreen() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    flexDirection: 'column',
+    height: "100%",
+    
   },
   content: {
-    flex: 1, // Prend l'espace restant entre Navbar et Footer
+    height: "78%", // Prend l'espace restant entre Navbar et Footer
     alignItems: 'center', // Centre le contenu horizontalement
     justifyContent: 'flex-start', // Commence le contenu en haut
     paddingTop: 20,

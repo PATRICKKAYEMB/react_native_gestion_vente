@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "gestion_vente",
+    "name": "Mon Store",
     "slug": "gestion_vente",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,9 +8,9 @@
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assert/images/OIP.jpg",
+     "image": "./assets/logo.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1A2B3C"
     },
     "ios": {
       "supportsTablet": true
