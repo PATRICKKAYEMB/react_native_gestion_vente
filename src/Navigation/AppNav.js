@@ -14,6 +14,7 @@ import ListeProduitsScreen from '../Screens/StockScreens/ListeProduitsScreen';
 import HistoriqueScreen from '../Screens/HistoriqueScreens/HistoriqueScreen';
 import VendreScreen from '../Screens/StockScreens/VendreScreen';
 import NotificationScreen from '../Screens/NotificationScreen';
+import HomeScreen from '../Screens/HomeScreen';
 
 
 
@@ -41,6 +42,13 @@ const Stack = createStackNavigator();
           name='Historique'
           component={HistoriqueScreen}
           options={{ headerShown: false }} />
+
+
+          <Stack.Screen
+          name="home"
+          component={HomeScreen}
+          options={{ headerShown: false }} />
+          
 
           <Stack.Screen 
           name="scanner"

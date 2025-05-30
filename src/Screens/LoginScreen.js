@@ -22,7 +22,7 @@ const LoginScreen = ({navigation}) => {
                 await SecureStore.setItemAsync("access",data.access)
                 await SecureStore.setItemAsync("refresh",data.refresh)
                 Toast.show({ type: "success", text1: "Connexion réussie" });
-                navigation.navigate("scanner")
+                navigation.navigate("home")
             }
         },
         onError: (error) => {
@@ -89,7 +89,7 @@ const LoginScreen = ({navigation}) => {
               disabled={mutation.isPending}>
                 {
                     mutation.isPending? (
-                        <ActivityIndicator color="#fff" />
+                        <ActivityIndicator color="#fff"  />
                     ):(
                         <Text style={styles.TextButton}>connexion</Text>
                     )
@@ -109,7 +109,7 @@ const styles=StyleSheet.create({
         flexDirection:"column",
         justifyContent:"center",
         alignItems:"center",
-        backgroundColor:"white",
+        backgroundColor:"orange",
         position:"relative"
     },
     container2:{

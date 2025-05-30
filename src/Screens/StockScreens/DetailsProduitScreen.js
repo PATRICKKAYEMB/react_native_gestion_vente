@@ -6,6 +6,9 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import { useQuery } from '@tanstack/react-query'
 import { Detail_produit } from '../../api/produitsApi'
 import Footer from '../../Components/Footer'
+import NotFoundScreen from '../exception/NotFoundScreen'
+import ErrorScreen from '../exception/ErrorScreen'
+import SpinnerScreen from '../exception/SpinnerScreen'
 
 const DetailsProduitScreen = () => {
   const route = useRoute()
@@ -19,15 +22,15 @@ const DetailsProduitScreen = () => {
   const navigation= useNavigation()
 
   if (isLoading) {
-    return <Text>Chargement...</Text>;
+    return <SpinnerScreen/>
   }
 
   if (error) {
-    return <Text>Erreur lors du chargement du produit.</Text>;
+    return <ErrorScreen/>
   }
 
   if (!data) {
-    return <Text>Aucune donnée trouvée.</Text>;
+    return <NotFoundScreen/>
   }
  
   return (

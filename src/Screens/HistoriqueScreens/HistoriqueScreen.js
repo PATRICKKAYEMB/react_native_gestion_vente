@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AntDesign from '@expo/vector-icons/AntDesign';
 import {
   View,
   Text,
@@ -17,6 +18,9 @@ import Footer from '../../Components/Footer';
 import Title from '../../Components/Title';
 import { voir_vente } from '../../api/apiVente';
 import { voir_categorie } from '../../api/apiCategorie';
+import SpinnerScreen from '../exception/SpinnerScreen';
+import ErrorScreen from '../exception/ErrorScreen';
+import NotFoundScreen from '../exception/NotFoundScreen';
 
 const HistoriqueScreen = () => {
   // 🎯 États principaux
@@ -51,7 +55,7 @@ const HistoriqueScreen = () => {
     queryFn: voir_categorie,
   });
 
-  const { data: ventesData, isLoading } = useQuery({
+  const { data: ventesData, isLoading:venteLoading,error:venteError } = useQuery({
     queryKey: ['historiqueVente', categorie, dateDebut, dateFin, sort],
     queryFn: () =>
       voir_vente({
@@ -77,6 +81,18 @@ const HistoriqueScreen = () => {
   const categories = categoriesData || [];
   const ventes = ventesData || [];
 
+  if (venteLoading){
+    return <SpinnerScreen/>
+  }
+
+  if(venteError){
+    return <ErrorScreen/>
+  }
+
+  if(!ventes){
+    <NotFoundScreen/>
+  }
+
   return (
     <SafeAreaView style={styles.container}>
       <Navbar />
@@ -84,44 +100,62 @@ const HistoriqueScreen = () => {
         <Title title="Historique Ventes" />
 
         {/* 🔍 Filtres de recherche */}
-<View  >
-                <View>
-                      <View style={styles.filtersContainer}>
+<View   >
+               
+                      <View   style={styles.filtersContainer}>
                         <View style={styles.dateRow}>
-                          <TouchableOpacity
-                            onPress={() => showDatePicker(true)}
-                            style={styles.dateInput}
-                          >
-                            <Text>{dateDebut ? `Début : ${dateDebut}` : 'Date début'}</Text>
-                          </TouchableOpacity>
 
-                          <TouchableOpacity
-                            onPress={() => showDatePicker(false)}
-                            style={styles.dateInput}
-                          >
-                            <Text>{dateFin ? `Fin : ${dateFin}` : 'Date fin'}</Text>
-                          </TouchableOpacity>
+                          <View style={styles.dateDebut} >
+                                <TouchableOpacity
+                                  onPress={() => showDatePicker(true)}
+                                  style={styles.dateInput}
+                                >
+                                  <Text style={styles.textDate}>{dateDebut ? ` ${dateDebut}` : 'Date début'}</Text>
+                                </TouchableOpacity>
+
+                                <TouchableOpacity onPress={()=>resetDateDebut(false)}>
+                               
+                                <AntDesign name="delete" size={18} color="white" />
+                                </TouchableOpacity>
+
+                          </View>
+
+                          <View style={styles.dateFin}>
+                              <TouchableOpacity
+                                onPress={() => showDatePicker(false)}
+                                style={styles.dateInput}
+                              >
+                                <Text style={styles.textDate}>{dateFin ? ` ${dateFin}` : 'Date fin'}</Text>
+                              </TouchableOpacity>
+
+                              <TouchableOpacity onPress={()=>resetDateFin(false)}>
+                              <AntDesign name="delete" size={18} color="white" />
+
+                               </TouchableOpacity>
+
+
+                          </View>
+                         
+
+                         
                         </View>
+                        
 
-                        <TouchableOpacity
-                          onPress={() => setFilterVisible(!filterVisible)}
-                          style={styles.filterButton}
-                        >
-                          <Text style={styles.filterButtonText}>Filtrer</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity
+                              onPress={() => setFilterVisible(!filterVisible)}
+                              style={styles.filterButton}
+                            >
+                              <AntDesign name="filter" size={16} color="white" />
+                              <Text style={styles.filterButtonText}>Filtrer</Text>
+                            </TouchableOpacity>
+
                       </View>
 
-                      <TouchableOpacity onPress={()=>resetDateFin(false)}>
-                        <Text> fin </Text>
+                     
 
-                      </TouchableOpacity>
+                     
 
-                      <TouchableOpacity onPress={()=>resetDateDebut(false)}>
-                      <Text> debut </Text>
-
-                    </TouchableOpacity>
-
-                </View>
+               
 
                 {/* 🔽 Filtres avancés */}
                 {filterVisible && (
@@ -152,7 +186,7 @@ const HistoriqueScreen = () => {
           </View>
 
         {/* 📋 Liste des ventes */}
-        {isLoading ? (
+        {venteLoading ? (
           <Text>Chargement...</Text>
         ) : (
           <FlatList
@@ -194,30 +228,79 @@ const HistoriqueScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  container: { flex: 1 },
-  content: { flex: 1, paddingTop: 10 },
-  filtersContainer: { padding: 10 },
+  container: { width:"full",height:"100%" },
+  content: { width:"full", height:"78%", paddingTop: 10,paddingHorizontal:4 },
+  filtersContainer: {
+    padding:4,
+     justifyContent:"space-between",
+     flexDirection:"row",
+     width:"full",
+      marginTop:20,
+      alignItems:"center",
+      
+      position:"relative"
+    
+    },
+    textDate:{
+      fontSize:12,
+      fontWeight:"bold",
+      paddingVertical:3,
+      paddingHorizontal:2
+    },
   filterButton: {
     backgroundColor: '#007AFF',
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 4,
-    marginTop: 10,
+    flexDirection:"row",
+    gap:3,
+    alignItems:"center",
+    justifyContent:"center",
+   
+  },
+  dateDebut:{
+    alignItems:"center",
+    justifyContent:"center",
+    flexDirection:"row",
+    backgroundColor:"#007AFF",
+    borderRadius:40,
+    paddingHorizontal:5,
+    paddingVertical:4,
+    gap:3,
+    borderRadius:6
+
+  },
+  dateFin:{
+    alignItems:"center",
+    justifyContent:"center",
+    flexDirection:"row",
+    backgroundColor:"#007AFF",
+    paddingHorizontal:5,
+    paddingVertical:4,
+    gap:3,
+    borderRadius:6
+
   },
   filterButtonText: { color: 'white', fontWeight: '600', textAlign: 'center' },
   filterOptions: {
+
     backgroundColor: '#4B9CD3',
-    padding: 10,
+    position:"absolute",
+    width:150,
+    right:0,
+    borderStartColor:"red",
     borderRadius: 6,
-    marginBottom: 10,
+    top:"100%",
+    zIndex:20
   },
   filtre:{
-    alignItems:"center",
-    justifyContent:"space-between",
-    flexDirection:"row"
+   
+    flexDirection:"column",
+    width:"100%",
+    backgroundColor:"red"
   },
   picker: {
-    backgroundColor: 'white',
+   
     marginBottom: 10,
     borderRadius: 4,
   },
@@ -226,11 +309,11 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   dateInput: {
-    flex: 1,
+    
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 6,
-    padding: 10,
+    padding: 2,
     backgroundColor: '#fff',
   },
   row: {

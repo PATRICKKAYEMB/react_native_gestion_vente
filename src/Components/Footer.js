@@ -4,12 +4,25 @@ import { AntDesign } from '@expo/vector-icons'
 import Feather from '@expo/vector-icons/Feather';
 import { useNavigation } from '@react-navigation/native'
 
+
+
 const  Footer = ()=>{
+
+   
+
+
     const navigation=useNavigation()
 
     return (
       <View style={styles.container}>
             
+            <TouchableOpacity style={styles.box} onPress={()=> navigation.navigate("home")}>
+
+                <AntDesign name='home' size={35}  color={"white"}/>
+            <Text style={styles.TextBox}>Scanner</Text>
+                
+            </TouchableOpacity>
+
 
             <TouchableOpacity style={styles.box} onPress={()=> navigation.navigate("scanner")}>
 
@@ -29,25 +42,7 @@ const  Footer = ()=>{
                 <AntDesign name='barchart' size={35} color={"white"}  />
             <Text style={styles.TextBox}>historique</Text>
                 
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.box} onPress={()=> navigation.navigate("notification")}>
-                <View style={styles.boxBell}>
-                        <View style={styles.bell}>
-                        <Text style={styles.textBell}>4</Text>
-                        </View>
-                   
-                    
-                     <Feather name="bell" size={24} color="white" />
-
-                </View>
-                
-            <Text style={styles.TextBox}>Notification</Text>
-                
-            </TouchableOpacity>
-
-           
-        
+            </TouchableOpacity> 
       </View>
     )
   }
@@ -78,8 +73,8 @@ const styles = StyleSheet.create({
     },
     
     bell:{
-        right:0,
-        top:0,
+        right:-2,
+        top:-2,
         width:15,
         height:15,
         alignItems:"center",

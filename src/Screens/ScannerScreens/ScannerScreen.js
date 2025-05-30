@@ -4,6 +4,8 @@ import { CameraView, useCameraPermissions } from 'expo-camera';
 import Navbar from '../../Components/Navbar';
 import Footer from '../../Components/Footer';
 import { useNavigation } from '@react-navigation/native';
+import Title from '../../Components/Title';
+
 
 export default function BarcodeScannerScreen() {
   const [permission, requestPermission] = useCameraPermissions();
@@ -24,11 +26,11 @@ export default function BarcodeScannerScreen() {
     // Les données du code-barres (data) sont ce que nous voulons passer comme ID
     const productId = data; // Supposons que les données scannées sont directement l'ID
 
-    setScannedData(`Type: ${type}, Données: ${productId}`); // Mise à jour pour l'affichage temporaire
+    // setScannedData(`Type: ${type}, Données: ${productId}`); // Mise à jour pour l'affichage temporaire
 
     Alert.alert(
       "Code scanné !",
-      `Type: ${type}\nDonnées: ${productId}\n\nNaviguer vers les détails du produit ?`,
+      `Naviguer vers les détails du produit ?`,
       [
         {
           text: "Annuler",
@@ -74,7 +76,8 @@ export default function BarcodeScannerScreen() {
     <View style={styles.container}>
       <Navbar />
       <View style={styles.content}>
-        <Text style={styles.text}>Scanner un code-barres</Text>
+       <Title title={"Scanner un code-barres"}/>
+        
         <View style={styles.cameraContainer}> {/* Renommé pour plus de clarté */}
           <CameraView
             onBarcodeScanned={scanned ? undefined : handleBarCodeScanned}
@@ -86,7 +89,7 @@ export default function BarcodeScannerScreen() {
           {scanned && (
             <View style={styles.scanResultOverlay}> {/* Nouveau style pour la superposition */}
               <Text style={styles.scanResultText}>{scannedData}</Text>
-              <Button title={'Scanner un autre code'} onPress={() => setScanned(false)} />
+              {/* <Button title={'Scanner un autre code'} onPress={() => setScanned(false)} /> */}
             </View>
           )}
         </View>
