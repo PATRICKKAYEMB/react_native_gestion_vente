@@ -23,9 +23,11 @@ const NotificationScreen = () => {
                     <ScrollView style={styles.box}>  {
                         notifiactions.map((item)=>(
 
-                            
-                <Text style={styles.text}key={item.id} >{item.produit}  { item.type_alerte} {item.description} {item.date_alerte}</Text>
-    
+                            <View style={styles.boxText} key={item.id}>
+                                    <Text style={styles.text} > {item.description} </Text>
+                                    <Text>{item.date_alerte}</Text>
+                            </View>
+            
                         ))
                         }
                       
@@ -49,14 +51,23 @@ const NotificationScreen = () => {
             paddingTop:10
         },
         box:{
-            paddingHorizontal:20,
+            paddingHorizontal:10,
             paddingVertical:20,
 
         },
+        boxText:{
+            marginBottom:20
+        },
         text:{
-            fontSize:20,
+            fontSize:16,
             
-        }
+        },
+        text2:{
+            fontSize:20,
+            fontWeight:'bold',
+            
+        },
+
 
     })
 

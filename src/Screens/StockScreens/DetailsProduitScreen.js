@@ -9,6 +9,7 @@ import Footer from '../../Components/Footer'
 import NotFoundScreen from '../exception/NotFoundScreen'
 import ErrorScreen from '../exception/ErrorScreen'
 import SpinnerScreen from '../exception/SpinnerScreen'
+import { BASEUrl } from '../../api/api'
 
 const DetailsProduitScreen = () => {
   const route = useRoute()
@@ -40,7 +41,7 @@ const DetailsProduitScreen = () => {
       
           <View  >  
               
-                 <Image source={require("../../../assets/ecouteur.jpg")} style={styles.image} />
+                 <Image source={{ uri: `${BASEUrl}${data.image}`}} style={styles.image} />
 
                 <View style={styles.text}>
                   <View style={styles.text1}>

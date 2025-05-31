@@ -32,6 +32,13 @@ export async function vendre_produit({ data, id }) {
       throw error;
     }
   }
+
+  export async function countVente(){
+    const response = await api.get("countVente/")
+    return response.data
+      
+    
+  }
   
 
 

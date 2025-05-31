@@ -1,14 +1,33 @@
 import { View, Text,StyleSheet, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 
 import { useQuery } from '@tanstack/react-query';
 import Feather from '@expo/vector-icons/Feather';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
 import { useNavigation } from '@react-navigation/native';
 import { countNotification } from '../api/apiNotification';
 
+import * as SecureStore from "expo-secure-store"
+
+
+
+
+
 
 const Navbar = () => {
+
+  const [logout,setLogout]= useState(false)
+
+  const signOut = async ()=>{
+    await SecureStore.deleteItemAsync("access")
+    await  SecureStore.deleteItemAsync("refresh")
+  
+    navigation.navigate("Login")
+  
+    
+  }
+
   const {data:countsData} = useQuery({
     queryKey:["countNotif"],
     queryFn:countNotification
@@ -42,17 +61,25 @@ const countData = countsData?.count ?? 0
                     <Feather name="bell" size={24} color="white" />
                     </View>
 
-               
-
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={()=> navigation.navigate("notification")}>
+                <TouchableOpacity onPress={()=> setLogout((prev)=> !prev)} >
                          <Feather name="more-vertical" size={24} color="white" />
                 </TouchableOpacity>
 
            </View>
 
-      
+              {
+                logout && <View  style={styles.logOutBox}>
+                            <TouchableOpacity  onPress={signOut} style={styles.logOutBox2}>
+                               <MaterialIcons name="logout" size={24} color="white" />
+                                    <Text style={styles.logOutText}>Logout</Text>
+                                   
+                            </TouchableOpacity>
+                              
+                           </View>
+              }
+            
     </View>
   )
 }
@@ -67,7 +94,8 @@ const styles=StyleSheet.create({
         width:"full",
         height:"10%",
         backgroundColor:"#0D47A1",
-        paddingHorizontal:10
+        paddingHorizontal:10,
+        position:"relative"
     },
     text1:{
       color:"orange",
@@ -82,7 +110,7 @@ const styles=StyleSheet.create({
         
     },
     parametre:{
-        gap:10,
+        gap:20,
         flexDirection:"row",
         alignItems:"center",
         justifyContent:"center"
@@ -135,6 +163,26 @@ const styles=StyleSheet.create({
 
       
 
+  },
+  logOutBox:{
+    position:"absolute",
+    width:130,
+    height:100,
+    backgroundColor:"#0D47A1",
+    right:0,
+    zIndex:20,
+    top:"150%"
+  },
+  logOutBox2:{
+    paddingVertical:20,
+    paddingHorizontal:10,
+    flexDirection:"row",
+    gap:10
+  },
+  logOutText:{
+    fontSize:18,
+    fontWeight:"semibold",
+    color:"#fff"
   }
     
 })

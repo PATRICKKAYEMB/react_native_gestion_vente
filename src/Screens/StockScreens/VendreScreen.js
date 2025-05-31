@@ -69,6 +69,7 @@ import {
                         <TextInput
                           style={styles.input}
                           placeholder="Entrez le nom du client"
+                         
                           onChangeText={onChange}
                           value={value}
                         
@@ -92,6 +93,7 @@ import {
                           placeholder="Entrez la quantité"
                           onChangeText={onChange}
                           value={value}
+                          
                           keyboardType="numeric"
                         />
                       )}
@@ -113,6 +115,7 @@ import {
                           style={styles.input}
                           placeholder="Entrez la date"
                           onChangeText={onChange}
+                        
                           value={value}
                         />
                       )}

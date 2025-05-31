@@ -1,5 +1,5 @@
 import { View, Text,StyleSheet, TouchableOpacity,ActivityIndicator } from 'react-native'
-import React from 'react'
+import React, { useState } from 'react'
 import { TextInput } from 'react-native'
 
 import { connexion } from '../api/api'
@@ -12,10 +12,19 @@ import { Controller, useForm } from 'react-hook-form'
 
 
 
+
 const LoginScreen = ({navigation}) => {
     const {control,handleSubmit,formState:{errors}} = useForm()
 
+    
+    const [status, setStatus] = useState(0)
+
     const  mutation = useMutation({
+
+
+
+
+        
         mutationFn:connexion,
         onSuccess: async (data)=>{
             if(data?.access && data?.refresh){
@@ -30,10 +39,16 @@ const LoginScreen = ({navigation}) => {
               type: "error",
               text1: "Échec de connexion",
               text2: error.message,
+              
             });
+
+           setStatus(error.status) 
+          
           }
           
+          
     })
+   
 
     function onSubmit (data){
         mutation.mutate(data)
@@ -69,7 +84,7 @@ const LoginScreen = ({navigation}) => {
                     rules={{required:"password requis"}}
 
                     render={({field:{onChange,value}}) =>(
-                        <TextInput style={styles.Input} 
+                        <TextInput style={styles.InputPassword} 
 
                          placeholder='veilleur votre nom:'
                          onChangeText={onChange}
@@ -82,6 +97,9 @@ const LoginScreen = ({navigation}) => {
 
             </View>
            
+           {
+            status === 401 && <Text style={styles.errorMessage} >nom ou mot de passe incorrect</Text>
+           }
             
 
              <TouchableOpacity style={styles.Button}
@@ -109,7 +127,7 @@ const styles=StyleSheet.create({
         flexDirection:"column",
         justifyContent:"center",
         alignItems:"center",
-        backgroundColor:"orange",
+        backgroundColor:"white",
         position:"relative"
     },
     container2:{
@@ -142,9 +160,19 @@ const styles=StyleSheet.create({
         padding:15,
         borderWidth:2,
         backgroundColor:"white",
-        marginBottom:35,
+        marginBottom:30,
         borderRadius:18
     },
+    InputPassword:{
+        width:"90%",
+        borderColor:"Brown",
+        padding:15,
+        borderWidth:2,
+        backgroundColor:"white",
+        marginBottom:7,
+        borderRadius:18
+    },
+    
     Button:{
         width:"90%",
         backgroundColor:"orange",
@@ -157,6 +185,15 @@ const styles=StyleSheet.create({
         color:"#fff",
         fontSize:22,
         fontWeight:"bold"
+    },
+    errorMessage:{
+
+        color:"white",
+        paddingLeft:40,
+        marginBottom:10
+
+        
+
     }
 
 })
