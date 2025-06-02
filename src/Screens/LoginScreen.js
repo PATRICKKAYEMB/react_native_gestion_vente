@@ -54,7 +54,7 @@ const LoginScreen = ({navigation}) => {
   return (
    <View style={styles.container}>
 
-
+       
         <View style={styles.container2} >
             <Text style={styles.Titre} >Login</Text>
 
@@ -68,7 +68,7 @@ const LoginScreen = ({navigation}) => {
 
                             <TextInput 
                         
-                            placeholder='veiller entrer votre nom:'
+                            placeholder='veuiller entrer votre nom:'
                             onChangeText={onChange}
                             editable={!mutation.isPending}
                             value={value}
@@ -93,7 +93,7 @@ const LoginScreen = ({navigation}) => {
                                 render={({field:{onChange,value}}) =>(
                                     <TextInput  
                                     style={styles.password}
-                                    placeholder='veiller entrer votre password:'
+                                    placeholder='veuiller entrer votre password:'
                                     onChangeText={onChange}
                                     value={value}
                                     secureTextEntry={visibilityPassword}

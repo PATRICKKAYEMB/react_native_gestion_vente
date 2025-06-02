@@ -25,7 +25,7 @@ const NotificationScreen = () => {
 
                             <View style={styles.boxText} key={item.id}>
                                     <Text style={styles.text} > {item.description} </Text>
-                                    <Text>{item.date_alerte}</Text>
+                                    <Text>{item.date_alerte} </Text>
                             </View>
             
                         ))

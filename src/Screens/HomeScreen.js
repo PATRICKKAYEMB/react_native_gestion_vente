@@ -1,14 +1,15 @@
-import { View, Text,StyleSheet } from 'react-native'
+import { View, Text,StyleSheet, TouchableOpacity } from 'react-native'
 import React from 'react'
 import Navbar from '../Components/Navbar'
 import Footer from '../Components/Footer'
 import { useQuery } from '@tanstack/react-query'
 import { countNotification } from '../api/apiNotification'
 import { countVente } from '../api/apiVente'
+import { useNavigation } from '@react-navigation/native'
 
 const HomeScreen = () => {
 
-
+    const navigate= useNavigation()
     const {data:countNotificationData} = useQuery({
         queryKey:["countNotification"],
         queryFn:countNotification
@@ -27,15 +28,25 @@ const HomeScreen = () => {
             <Navbar/>
         <View style={styles.content} >
 
+            <TouchableOpacity onPress={()=>navigate.navigate("notification")}>
                 <View style={styles.notification}>
                     <Text style={styles.text1}>{countNotifications}</Text>
                     <Text style={styles.text1}>Notifications</Text>
                 </View>
 
-                <View style={styles.vente}>
+            </TouchableOpacity>
+
+                
+
+            <TouchableOpacity onPress={()=>navigate.navigate("Historique")}>
+
+               <View style={styles.vente}>
                 <Text style={styles.text1}>{countVentes}</Text>
                     <Text style={styles.text1}>Ventes</Text>
                 </View>
+
+            </TouchableOpacity>
+                
 
         </View>
 

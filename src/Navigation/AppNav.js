@@ -4,8 +4,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 import LoginScreen from '../Screens/LoginScreen';
 import ScannerScreen from '../Screens/ScannerScreens/ScannerScreen';
-import ConfirmationScreen from '../Screens/ScannerScreens/ConfirmationScreen';
-import SuccesScreen from '../Screens/ScannerScreens/SuccesScreen';
+
 import CategorieScreen from '../Screens/StockScreens/CategorieScreen';
 import DetailsProduitScreen from '../Screens/StockScreens/DetailsProduitScreen';
 import { Dimensions } from 'react-native';
@@ -14,7 +13,7 @@ import ListeProduitsScreen from '../Screens/StockScreens/ListeProduitsScreen';
 import HistoriqueScreen from '../Screens/HistoriqueScreens/HistoriqueScreen';
 import VendreScreen from '../Screens/StockScreens/VendreScreen';
 import NotificationScreen from '../Screens/NotificationScreen';
-import HomeScreen from "../Screens/HomeScreen"
+
 
 import useAuth from '../context/AuthContext';
 
@@ -51,23 +50,16 @@ const Stack = createStackNavigator();
         return (
           <NavigationContainer onReady={onReady}>
           
-            <Stack.Navigator initialRouteName="home">
+            <Stack.Navigator initialRouteName="scanner">
+
+            <Stack.Screen 
+              name="scanner"
+              component={ScannerScreen}
+              options={{ headerShown: false }} />
             
               <Stack.Screen 
               name='Historique'
               component={HistoriqueScreen}
-              options={{ headerShown: false }} />
-
-
-              <Stack.Screen
-              name="home"
-              component={HomeScreen}
-              options={{ headerShown: false }} />
-              
-
-              <Stack.Screen 
-              name="scanner"
-              component={ScannerScreen}
               options={{ headerShown: false }} />
 
 
@@ -100,15 +92,7 @@ const Stack = createStackNavigator();
               component={DetailsProduitScreen}
               options={{headerShown:false}} />
 
-              <Stack.Screen
-              name='confirmerScreen'
-              component={ConfirmationScreen} 
-              options={{headerShown:false}} />
-
-              <Stack.Screen 
-              name='succesScreen'
-              component={SuccesScreen}
-              options={{headerShown:false}} />
+             
             </Stack.Navigator>
           </NavigationContainer>
         );

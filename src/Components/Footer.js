@@ -16,12 +16,7 @@ const  Footer = ()=>{
     return (
       <View style={styles.container}>
             
-            <TouchableOpacity style={styles.box} onPress={()=> navigation.navigate("home")}>
-
-                <AntDesign name='home' size={35}  color={"white"}/>
-            <Text style={styles.TextBox}>Home</Text>
-                
-            </TouchableOpacity>
+           
 
 
             <TouchableOpacity style={styles.box} onPress={()=> navigation.navigate("scanner")}>

@@ -76,7 +76,7 @@ export default function BarcodeScannerScreen() {
     <View style={styles.container}>
       <Navbar />
       <View style={styles.content}>
-       <Title title={"Scanner un code-barres"}/>
+       <Title title={"Scanner le QR code"}/>
         
         <View style={styles.cameraContainer}> {/* Renommé pour plus de clarté */}
           <CameraView

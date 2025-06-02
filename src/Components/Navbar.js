@@ -20,7 +20,7 @@ const Navbar = () => {
 
   const {logout} =useAuth()
 
-  const [HideLogout,setHideLogout]= useState(false)
+  const [hideLogout,setHideLogout]= useState(false)
 
   const signOut = async ()=>{
     await SecureStore.deleteItemAsync("access")
@@ -66,14 +66,14 @@ const countData = countsData?.count ?? 0
 
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={()=> setLogout((prev)=> !prev)} >
+                <TouchableOpacity onPress={()=> setHideLogout((prev)=> !prev)} >
                          <Feather name="more-vertical" size={24} color="white" />
                 </TouchableOpacity>
 
            </View>
 
               {
-                HideLogout && <View  style={styles.logOutBox}>
+                hideLogout && <View  style={styles.logOutBox}>
                             <TouchableOpacity  onPress={logout} style={styles.logOutBox2}>
                                <MaterialIcons name="logout" size={24} color="white" />
                                     <Text style={styles.logOutText}>Logout</Text>
