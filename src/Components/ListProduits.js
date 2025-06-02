@@ -1,15 +1,16 @@
 import { View, Text,StyleSheet, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 import { useNavigation } from '@react-navigation/native'
+import { BASEUrl } from '../api/api'
 
-const ListProduits = ({name,prix,id}) => {
+const ListProduits = ({name,prix,id,image}) => {
     const navigation = useNavigation()
   return (
         <>
         <TouchableOpacity style={Styles.container}  onPress={() => navigation.navigate("detailProduit", { id })}>
           
                 <View  style={Styles.imageWrapper}>  
-                      <Image source={require("../../assets/ecouteur2.webp")} style={[Styles.image,{backgroundColor:"red"}]} />
+                      <Image source={{uri:`${BASEUrl}${image}`}} style={Styles.image} />
                 </View>
                
                 <View style={Styles.text}>

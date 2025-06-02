@@ -9,6 +9,7 @@ import { useNavigation } from '@react-navigation/native';
 import { countNotification } from '../api/apiNotification';
 
 import * as SecureStore from "expo-secure-store"
+import useAuth from '../context/AuthContext';
 
 
 
@@ -17,7 +18,9 @@ import * as SecureStore from "expo-secure-store"
 
 const Navbar = () => {
 
-  const [logout,setLogout]= useState(false)
+  const {logout} =useAuth()
+
+  const [HideLogout,setHideLogout]= useState(false)
 
   const signOut = async ()=>{
     await SecureStore.deleteItemAsync("access")
@@ -70,8 +73,8 @@ const countData = countsData?.count ?? 0
            </View>
 
               {
-                logout && <View  style={styles.logOutBox}>
-                            <TouchableOpacity  onPress={signOut} style={styles.logOutBox2}>
+                HideLogout && <View  style={styles.logOutBox}>
+                            <TouchableOpacity  onPress={logout} style={styles.logOutBox2}>
                                <MaterialIcons name="logout" size={24} color="white" />
                                     <Text style={styles.logOutText}>Logout</Text>
                                    

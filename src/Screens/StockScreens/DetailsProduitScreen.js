@@ -22,6 +22,14 @@ const DetailsProduitScreen = () => {
 
   const navigation= useNavigation()
 
+  const renderStatusColor = (status) => {
+    if (status === "yellow") return <View style={styles.yellow} />;
+    if (status === "red") return <View style={styles.red} />;
+    if (status === "green") return <View style={styles.green} />;
+    return null;
+  };
+  
+
   if (isLoading) {
     return <SpinnerScreen/>
   }
@@ -45,17 +53,20 @@ const DetailsProduitScreen = () => {
 
                 <View style={styles.text}>
                   <View style={styles.text1}>
-                        <Text>{data.name}</Text>
+                        <Text style={styles.message}>{data.name}</Text>
                         <Text style={styles.prix}>{data.prix} Fc</Text>
                   </View>
                   <View style={styles.text2}>
                         <Text>quantite :  {data.quantite}</Text>
-                        <Text>Etat: {data.status}</Text>
+                        <View style={styles.status}>
+                                <Text >Status: </Text>   {renderStatusColor(data.status)}
+                        </View>
+                        
                   </View>
 
                  
-                  <View style={styles.text3}>
-                        <Text>date:</Text>
+                  <View style={styles.text3} >
+                        <Text>date ajout:</Text>
                         <Text>{data.date_ajout}</Text>
                   </View>
                 
@@ -89,14 +100,14 @@ const styles= StyleSheet.create({
         height:"78%",
         width:"full",
       
-        paddingTop:10
+        
       },
       
 
       image:{
 
         width:"full",
-        height:300,
+        height:350,
         backgroundColor:"green"
 
       },
@@ -126,12 +137,19 @@ const styles= StyleSheet.create({
       justifyContent:"space-between"
       
   },
+  message:{
+      fontSize:16,
+      fontWeight:"bold"
+  },
   prix:{
       fontSize:20,
       padding:5,
       fontWeight:"bold",
+      backgroundColor:"orange",
       borderWidth:1,
+      color:"white",
       borderRadius:20
+    
   },
   boxVente:{
     width:"100%",
@@ -152,6 +170,29 @@ const styles= StyleSheet.create({
     color:"white",
     textAlign:"center",
     fontSize:20
+  },
+  red:{
+    width:60,
+    height:20,
+    backgroundColor:"red"
+  }
+  ,
+  yellow:{
+    width:60,
+    height:20,
+    backgroundColor:"yellow"
+  }
+  ,
+  green:{
+    width:60,
+    height:20,
+    backgroundColor:"green"
+  },
+  status:{
+    alignItems:"center",
+    justifyContent:"center",
+    flexDirection:"row",
+    gap:5
   }
 
 })

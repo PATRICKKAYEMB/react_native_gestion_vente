@@ -7,6 +7,8 @@ import { useMutation } from '@tanstack/react-query'
 import * as SecureStore from 'expo-secure-store';
 import Toast from 'react-native-toast-message';
 import { Controller, useForm } from 'react-hook-form'
+import Entypo from '@expo/vector-icons/Entypo';
+import useAuth from '../context/AuthContext'
 
 
 
@@ -15,9 +17,10 @@ import { Controller, useForm } from 'react-hook-form'
 
 const LoginScreen = ({navigation}) => {
     const {control,handleSubmit,formState:{errors}} = useForm()
-
+    const {handleSuccess}= useAuth()
     
     const [status, setStatus] = useState(0)
+    const [visibilityPassword,SetVisibilityPassword]= useState(false)
 
     const  mutation = useMutation({
 
@@ -27,12 +30,7 @@ const LoginScreen = ({navigation}) => {
         
         mutationFn:connexion,
         onSuccess: async (data)=>{
-            if(data?.access && data?.refresh){
-                await SecureStore.setItemAsync("access",data.access)
-                await SecureStore.setItemAsync("refresh",data.refresh)
-                Toast.show({ type: "success", text1: "Connexion réussie" });
-                navigation.navigate("home")
-            }
+           handleSuccess(data)
         },
         onError: (error) => {
             Toast.show({
@@ -60,42 +58,58 @@ const LoginScreen = ({navigation}) => {
         <View style={styles.container2} >
             <Text style={styles.Titre} >Login</Text>
 
-            <View>
-                <Controller control={control}
-                name='username'
-                rules={{required:"Nom requis"}}
-                render={({  field : {onChange,value}}) =>(
+            <View style={styles.InputBox}>
+                    <View  style={styles.Input}>
+                        <Controller
+                        control={control}
+                        name='username'
+                        rules={{required:"Nom requis"}}
+                        render={({  field : {onChange,value}}) =>(
 
-                    <TextInput style={styles.Input}
-                     placeholder='veilleur votre nom:'
-                     onChangeText={onChange}
-                     editable={!mutation.isPending}
-                       value={value}
-
-                     /> ) }    
-                />
-                
-                {errors.username && <Text style={styles.error}>{errors.username.message}</Text>}
-            </View>
-            <View>
-                <Controller
-                    control={control}
-                    name='password'
-                    rules={{required:"password requis"}}
-
-                    render={({field:{onChange,value}}) =>(
-                        <TextInput style={styles.InputPassword} 
-
-                         placeholder='veilleur votre nom:'
-                         onChangeText={onChange}
-                         value={value}
-                         secureTextEntry
-                         editable={!mutation.isPending}
-                         />)}
-                />
-                 {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
+                            <TextInput 
+                        
+                            placeholder='veiller entrer votre nom:'
+                            onChangeText={onChange}
+                            editable={!mutation.isPending}
+                            value={value}
+                            
+                            /> ) }    
+                        />
+                        
+                    </View>
+                        {errors.username && <Text style={styles.error}>{errors.username.message}</Text>}
 
             </View>
+
+           
+           <View style={styles.InputPassword}>
+                        <View style={styles.InputPassword2}>
+                            <Controller
+                           
+                                control={control}
+                                name='password'
+                                rules={{required:"password requis"}}
+
+                                render={({field:{onChange,value}}) =>(
+                                    <TextInput  
+                                    style={styles.password}
+                                    placeholder='veiller entrer votre password:'
+                                    onChangeText={onChange}
+                                    value={value}
+                                    secureTextEntry={visibilityPassword}
+                                    editable={!mutation.isPending}
+                                    />)}
+                            />
+                            <TouchableOpacity onPress={()=>(SetVisibilityPassword(!visibilityPassword))}> 
+                                    <Entypo name="eye" size={24} color="black" />  
+                            </TouchableOpacity> 
+                        
+                                
+                        </View>
+                        {errors.password && <Text style={styles.error}>{errors.password.message}</Text>}
+                    
+           </View>
+
            
            {
             status === 401 && <Text style={styles.errorMessage} >nom ou mot de passe incorrect</Text>
@@ -107,7 +121,7 @@ const LoginScreen = ({navigation}) => {
               disabled={mutation.isPending}>
                 {
                     mutation.isPending? (
-                        <ActivityIndicator color="#fff"  />
+                        <ActivityIndicator color="#fff" size={30} />
                     ):(
                         <Text style={styles.TextButton}>connexion</Text>
                     )
@@ -144,10 +158,13 @@ const styles=StyleSheet.create({
     },
     error: {
         color: 'red',
-        marginBottom: 10,
-        marginLeft: 5,
+       
+        
+        marginLeft: 20,
       },
-      
+      password:{
+            flex:1
+      },
     Titre:{
         color:"orange",
         fontSize:30,
@@ -157,21 +174,33 @@ const styles=StyleSheet.create({
     Input:{
         width:"90%",
         borderColor:"Brown",
-        padding:15,
+        paddingVertical:5,
         borderWidth:2,
         backgroundColor:"white",
+       
+        paddingHorizontal:8,
+        borderRadius:18
+    },
+    InputBox:{
         marginBottom:30,
+    },
+    InputPassword2:{
+        width:"90%",
+        borderColor:"Brown",
+        paddingVertical:5,
+        paddingHorizontal:8,
+        flexDirection:"row",
+        alignItems:"center",
+        justifyContent:"space-between",
+        borderWidth:2,
+        backgroundColor:"white",
+      
         borderRadius:18
     },
     InputPassword:{
-        width:"90%",
-        borderColor:"Brown",
-        padding:15,
-        borderWidth:2,
-        backgroundColor:"white",
-        marginBottom:7,
-        borderRadius:18
+        marginBottom:20,
     },
+   
     
     Button:{
         width:"90%",

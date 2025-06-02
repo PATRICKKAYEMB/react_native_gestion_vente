@@ -5,11 +5,13 @@ import Footer from '../../Components/Footer'
 import Categorie from '../../Components/Categorie'
 import { useQuery } from '@tanstack/react-query'
 import { voir_categorie } from '../../api/apiCategorie'
+import SpinnerScreen from '../exception/SpinnerScreen'
+import NotFoundScreen from '../exception/NotFoundScreen'
 
 
 const CategorieScreen = () => {
 
-  const {data} =useQuery({
+  const {data,isLoading,isError} =useQuery({
     queryKey:["categorie"],
     queryFn: voir_categorie
 
@@ -17,7 +19,16 @@ const CategorieScreen = () => {
 
   })
 
+
   const categorieData = data || []
+
+if (isLoading) {
+  return <SpinnerScreen/>
+}
+ 
+if (isError) {
+  return <NotFoundScreen/>
+}
   return (
     <View style={styles.container}>
         <Navbar/>
@@ -34,7 +45,7 @@ const CategorieScreen = () => {
              <ScrollView style={styles.categorieList}> 
              {
               categorieData.map((item,ids) => (
-                     <Categorie text={item.name} id={item.id} key={ids} />
+                     <Categorie text={item.name} id={item.id} key={ids} image={item.image} />
 
               ))
              }

@@ -1,42 +1,63 @@
-import axios from 'axios';
-
-import * as SecureStore from 'expo-secure-store';
-
-
-export const BaseUrl = "http://192.168.43.228:8000/api/";
-
-
-export const api = axios.create({
-  baseURL: BaseUrl,
-});
-
-
-
-
-
-
-api.interceptors.request.use(
-  async (config) => {
-    const token = await SecureStore.getItemAsync('access');
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-      console.log('✅ Token ajouté dans les headers');
-    } else {
-      console.log('⚠️ Token introuvable');
-    }
-    return config;
-  },
-  (error) => Promise.reject(error)
-);
+import {NavigationContainer} from '@react-navigation/native';
+import {createStackNavigator} from '@react-navigation/stack';
+import WelcomeScreen from "../screens/WelcomeScreen";
+import SignInScreen from "../screens/SignInScreen.";
+import SignUpScreen from "../screens/SignUpScreen";
+import HomeScreen from "../screens/HomeScreen";
+import UserProfile from "../screens/UserProfile.";
+import VideoDetailsScreen from "../screens/VideoDetailsScreen";
+import VideoDetailScreen from "../screens/VideoDetailsScreen";
+import ChatAiScreen from "../screens/ChatAiScreen";
+import {COLORS} from "../constant/COLORS";
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+import {Image} from "react-native";
+import useAuth from "../config/AuthContext";
 
 
-export async function connexion(data) {
-  try {
-    const response = await api.post("token/", data);
-   
-    return response.data;
-  } catch (error) {
-    console.error("Erreur lors de la connexion :", error);
-    throw error;
+
+const Stack = createStackNavigator();
+
+const AppNav = ({onReady}) => {
+
+    const {login, logout, isAuthenticated} = useAuth();
+
+    if (!isAuthenticated) {
+        return (
+            <NavigationContainer onReady={onReady}>
+                <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={"SignIn"}>
+                    <Stack.Screen name={"SignIn"} component={SignInScreen}/>
+                </Stack.Navigator>
+            </NavigationContainer>
+        );
+    } else if (isAuthenticated) {
+        return (
+            <NavigationContainer onReady={onReady}>
+                <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName={"Home"}>
+                <Stack.Screen name={"Home"} component={HomeScreen} options={{headerShown: false}}/>
+                    <Stack.Screen name={"Profil"} component={UserProfile} options={{headerShown: false}}/>
+                    <Stack.Screen name={"VideoDetail"} component={VideoDetailScreen} options={{headerShown: false}}/>
+                    <Stack.Screen
+                        name="ChatAi"
+                        component={ChatAiScreen}
+                        options={{
+                            title: 'Discussion AI',
+                            headerTitleAlign: 'center', // 👈 centre le titre dans le header
+                            headerTitleStyle: {
+                                fontWeight: 'bold', // (optionnel)
+                            },
+                            headerStyle: {
+                                backgroundColor: 'white',
+                            },
+                          },
+                          headerLeft: (props) => <Image style={{height: 35, width: 35, marginLeft: 10}}
+                                                        source={require('../../assets/images/profil.png')}/>,
+                          headerRight: (props) => <MaterialCommunityIcons style={{marginRight: 10}} name={"history"}
+                                                                          size={30}/>
+                      }}
+                  />
+              </Stack.Navigator>
+          </NavigationContainer>
+      )
   }
 }
+export default AppNav;

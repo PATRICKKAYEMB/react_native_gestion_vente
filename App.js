@@ -1,29 +1,54 @@
-import { useEffect } from "react";
+import { useEffect, useState, useCallback } from "react";
 import AppNav from "./src/Navigation/AppNav";
+import { View } from "react-native";
 
-import * as splashScreen  from "expo-splash-screen"
+import * as SplashScreen  from "expo-splash-screen"
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider } from "./src/context/AuthContext";
 
-splashScreen.preventAutoHideAsync()
+SplashScreen.preventAutoHideAsync()
 
 const queryClient = new QueryClient();
 
 export default function App() {
 
-  useEffect(()=>{
-    const prepare = async()=>{
-      await new Promise (resolve => setTimeout(resolve,2000))
-      await  splashScreen.hideAsync()
-      
-    }
-    prepare()
+  const [appIsReady, setAppIsReady] = useState(false);
 
-  },[])
+  useEffect(() => {
+    const prepare = async () => {
+      try {
+        // Chargez ici vos ressources (polices, données, etc.)
+        await new Promise(resolve => setTimeout(resolve, 2000));
+      } catch (e) {
+        console.warn(e);
+      } finally {
+        setAppIsReady(true);
+      }
+    };
+
+    prepare();
+  }, []);
+
+  const onLayoutRootView = useCallback(async () => {
+    if (appIsReady) {
+      await SplashScreen.hideAsync();
+    }
+  }, [appIsReady]);
+
+  if (!appIsReady) {
+    return null;
+  }
+
+
 
   return (
    <QueryClientProvider client={queryClient}>
    
-        <AppNav/>
+        <AuthProvider>
+          <View style={{ flex: 1 }} onLayout={onLayoutRootView}>
+            <AppNav />
+          </View> 
+        </AuthProvider>
 
   </QueryClientProvider>
   );

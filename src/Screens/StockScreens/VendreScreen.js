@@ -6,7 +6,7 @@ import {
     TouchableOpacity,
     ActivityIndicator,
   } from 'react-native';
-  import React from 'react';
+  import React, { useState } from 'react';
   import Navbar from '../../Components/Navbar';
   import Footer from '../../Components/Footer';
   import { Controller, useForm } from 'react-hook-form';
@@ -19,6 +19,8 @@ import {
     const route = useRoute();
     const navigation = useNavigation();
     const { id } = route.params;
+
+    const [message,SetMessage]= useState(0)
   
     const {
       control,
@@ -38,8 +40,10 @@ import {
         Toast.show({
           type: 'error',
           text1: 'Échec vente',
+
           text2: error.message,
-        });
+        })
+       SetMessage(error.status)
       },
     });
   
@@ -55,6 +59,7 @@ import {
           <Text style={styles.title}>Formulaire de Vente</Text>
 
 
+             
           <View style={styles.forms}>
 
         
@@ -126,7 +131,9 @@ import {
                   </View>
           
                 
-                  
+                  {
+              message === 400 &&  <Text style={styles.message}> la quantite demande est superieur a la quantite en stock</Text>
+              }
           
                   <TouchableOpacity
                     style={styles.button}
@@ -173,6 +180,10 @@ import {
     },
     formGroup: {
       marginBottom: 15,
+    },
+    message:{
+          color:"red",
+          textAlign:"center"
     },
     label: {
       marginBottom: 5,

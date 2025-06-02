@@ -1,45 +1,66 @@
-import React, { useContext } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createContext, useState, useContext } from "react";
+import * as SecureStore from "expo-secure-store"
 
-import { AuthProvider, AuthContext } from './contexts/AuthContext';
 
-import LoginScreen from './screens/LoginScreen';
-import Dashboard from './screens/Dashboard';
-import Spinner from './components/Spinner';
 
-const Stack = createNativeStackNavigator();
 
-const AuthStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Login" component={LoginScreen} options={{ headerShown: false }} />
-  </Stack.Navigator>
-);
+const AuthContext =createContext()
 
-const AppStack = () => (
-  <Stack.Navigator>
-    <Stack.Screen name="Dashboard" component={Dashboard} options={{ headerShown: false }} />
-  </Stack.Navigator>
-);
+export const AuthProvider = ({children}) =>{
+  const[token,setToken]= useState("")
+  const[isAuthenticated,setIsAuthenticated] =useState(false)
+  const [refreshToken,setRefreshToken] =useState("")
 
-const Navigation = () => {
-  const { isAuthenticated } = useContext(AuthContext);
+  const handleSuccess = async (data) => {
+    const { access, refresh } = data;
 
-  if (isAuthenticated === null) {
-    return <Spinner />; // Affiche un loader pendant la vérification
-  }
+    // ✅ Stocke les tokens
+    await SecureStore.setItemAsync('access', access);
+    await SecureStore.setItemAsync('refresh', refresh);
 
-  return (
-    <NavigationContainer>
-      {isAuthenticated ? <AppStack /> : <AuthStack />}
-    </NavigationContainer>
-  );
-};
+    setToken(data.jwt)
+    setRefreshToken(data.refreshToken)
 
-export default function App() {
-  return (
-    <AuthProvider>
-      <Navigation />
-    </AuthProvider>
-  );
+    // ✅ Met à jour l'état
+    setIsAuthenticated(true);
+  };
+
+  const logout = async () => {
+    await SecureStore.deleteItemAsync('access');
+    await SecureStore.deleteItemAsync('refresh');
+    setIsAuthenticated(false);
+  };
+
+
+
+  const checkIsAuthenticated = ()=>{
+   const access_token = SecureStore.getItemAsync("token")
+
+    .then(access_token =>{
+        if (access_token) {
+              setIsAuthenticated(true);
+        }
+    })
+
+    return isAuthenticated
+   }
+
+
+  
+
+
+   return(
+    <AuthContext.Provider value={{handleSuccess,checkIsAuthenticated,logout,isAuthenticated,token,refreshToken}}>
+          {children}
+    </AuthContext.Provider>
+   )
+
 }
+
+const useAuth = () =>{
+    return useContext(AuthContext)
+}
+export default useAuth
+
+
+

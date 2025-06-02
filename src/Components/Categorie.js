@@ -2,8 +2,9 @@ import { View, Text,StyleSheet, Image, TouchableOpacity} from 'react-native'
 import React from 'react'
 import { AntDesign } from '@expo/vector-icons'
 import { useNavigation } from '@react-navigation/native'
+import { BASEUrl } from '../api/api'
 
-const Categorie = ({text,id}) => {
+const Categorie = ({text,id,image}) => {
 
    const navigation=useNavigation()
   return (
@@ -11,7 +12,7 @@ const Categorie = ({text,id}) => {
    
         <TouchableOpacity style={styles.container} onPress={() => navigation.navigate("listeProduits", { id })} >
         <View style={styles.box}>
-                <Image  source={require("../../assets/chargeur.png")} style={styles.image}/>
+                <Image  source={{uri:`${BASEUrl}${image}`}} style={styles.image}/>
                
        
                 <View>
@@ -54,7 +55,6 @@ const styles= StyleSheet.create({
         width:100,
         height:"90",
         borderRadius:15,
-        backgroundColor:"green",
         marginRight:10
     },
     text1:{

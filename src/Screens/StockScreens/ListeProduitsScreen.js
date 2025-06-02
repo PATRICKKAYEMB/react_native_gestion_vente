@@ -46,6 +46,8 @@ if (error){
               name={item.name}
               prix={item.prix}
               id={item.id}
+              image={item.image}
+              
             />
           ))}
         </View>
